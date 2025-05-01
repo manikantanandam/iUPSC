@@ -33,7 +33,7 @@ struct DashboardCardView: View {
 
 struct DashboardView: View {
     @ObservedObject private var viewModel: DashboardViewModel
-    
+    @EnvironmentObject var coordinator: AppCoordinator
     init(viewModel: DashboardViewModel) {
         self.viewModel = viewModel
     }
@@ -48,9 +48,24 @@ struct DashboardView: View {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(viewModel.items) { item in
                     DashboardCardView(item: item)
+                        .onTapGesture {
+                            switch item.type {
+                            case .subjects:
+                                coordinator.push(route: .subjects)
+                            case .topics:
+                                coordinator.push(route: .topics)
+                            }
+                        }
                 }
             }
             .padding(.horizontal)
+            .navigationTitle("Dashboard")
+            .navigationBarBackButtonHidden()
+            .onAppear {
+                Task {
+                    await viewModel.viewAppeared()
+                }
+            }
         }
     }
 }

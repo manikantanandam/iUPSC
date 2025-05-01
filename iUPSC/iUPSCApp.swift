@@ -22,7 +22,7 @@ struct iUPSCApp: App {
   // register app delegate for Firebase setup
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     let authService = AuthService()
-
+    let coordinator = AppCoordinator()
   var body: some Scene {
       WindowGroup {
           ContentView()
@@ -31,6 +31,7 @@ struct iUPSCApp: App {
                       await authService.signInAnonymously()
                   }
               }
+              .environmentObject(coordinator)
       }
   }
 }

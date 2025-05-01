@@ -22,6 +22,8 @@ struct CustomAlertView: View {
                         .font(.headline)
 
                     TextField("Type something...", text: $inputText)
+                        .textInputAutocapitalization(.never) // Disables automatic capitalization
+                        .autocorrectionDisabled(true)        // Disables auto-correction and suggestions
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
 

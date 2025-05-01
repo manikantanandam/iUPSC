@@ -8,22 +8,42 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var coordinator: SubjectsCoordinator
-    @StateObject private var viewModel: SubjectViewModel
-
-    init() {
-        let container = DependencyContainer.shared
-
-        // Resolve coordinator and ViewModel
-        let resolvedCoordinator = container.resolve(SubjectsCoordinator.self)!
-        let resolvedViewModel = container.resolve(SubjectViewModel.self)!
-
-        _coordinator = StateObject(wrappedValue: resolvedCoordinator)
-        _viewModel = StateObject(wrappedValue: resolvedViewModel)
-    }
+    
+    @EnvironmentObject private var coordinator: AppCoordinator
+    let container = DependencyContainer.shared
+    init() {}
 
     var body: some View {
-        SubjectsView(viewModel: viewModel, coordinator: coordinator)
+        NavigationStack(path: $coordinator.navigationPath) {
+            EmptyView()
+                .navigationDestination(for: AppRoute.self) { route in
+                    switch route {
+                    case .dashboard:
+                        DashboardView(
+                            viewModel: container.resolve(DashboardViewModel.self)!
+                        )
+                    case .subjects:
+                        SubjectsView(
+                            viewModel: container.resolve(SubjectViewModel.self)!
+                        )
+                    case .subjectDetails(let subject):
+                        SubjectDetailsView(
+                            viewModel: container.resolve(SubjectDetailsViewModel.self, argument: subject)!
+                        )
+                    case .topics:
+                        TopicsView(
+                            viewModel: container.resolve(TopicsViewModel.self)!
+                        )
+                    case .topicDetails(let topic):
+                        EmptyView()
+                    case .subTopics:
+                        EmptyView()
+                    case .subTopicDetails(let subTopic):
+                        EmptyView()
+                    }
+                }
+        }
+        
     }
 }
 

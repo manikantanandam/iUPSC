@@ -8,7 +8,7 @@ import SwiftUI
 
 struct SubjectDetailsView: View {
     @ObservedObject var viewModel: SubjectDetailsViewModel
-    @ObservedObject var coordinator: SubjectsCoordinator
+    @EnvironmentObject var coordinator: AppCoordinator
 
     var body: some View {
         VStack {

@@ -26,5 +26,5 @@ extension DashboardItemType {
 struct DashboardItem: Identifiable {
     let id = UUID()
     let type: DashboardItemType
-    let count: Int
+    var count: Int
 }
