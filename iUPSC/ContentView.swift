@@ -35,11 +35,17 @@ struct ContentView: View {
                             viewModel: container.resolve(TopicsViewModel.self)!
                         )
                     case .topicDetails(let topic):
-                        EmptyView()
+                        TopicDetailsView(
+                            viewModel: container.resolve(TopicDetailsViewModel.self, argument: topic)!
+                        )
                     case .subTopics:
                         EmptyView()
                     case .subTopicDetails(let subTopic):
                         EmptyView()
+                    case .addQuestion(let topic):
+                        AddQuestionView(
+                            viewModel: container.resolve(AddQuestionViewModel.self, argument: topic)!
+                        )
                     }
                 }
         }

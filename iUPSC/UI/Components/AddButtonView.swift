@@ -15,6 +15,5 @@ struct AddButtonBindingView: View {
         } label: {
             Image(systemName: "plus")
         }
-
     }
 }

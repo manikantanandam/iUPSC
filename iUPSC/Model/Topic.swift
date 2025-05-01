@@ -14,6 +14,7 @@ class Topic: DictionaryConvertible, Codable, Identifiable, Hashable {
     let updatedOn: TimeInterval
     let subjectIDs: [String]
     let examIDs: [String]
+    var questions: [Question]
     
     init(name: String) {
         self.id = UUID().uuidString
@@ -22,6 +23,18 @@ class Topic: DictionaryConvertible, Codable, Identifiable, Hashable {
         self.updatedOn = Date().timeIntervalSince1970
         self.subjectIDs = []
         self.examIDs = []
+        self.questions = []
+    }
+    
+    required init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.createdOn = try container.decode(TimeInterval.self, forKey: .createdOn)
+        self.updatedOn = try container.decode(TimeInterval.self, forKey: .updatedOn)
+        self.subjectIDs = try container.decode([String].self, forKey: .subjectIDs)
+        self.examIDs = try container.decode([String].self, forKey: .examIDs)
+        self.questions = try container.decodeIfPresent([Question].self, forKey: .questions) ?? []
     }
     
     // MARK: - Hashable Conformance
