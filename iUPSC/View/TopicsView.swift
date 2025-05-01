@@ -7,7 +7,7 @@ struct TopicsView: View {
     @State private var inputText = ""
 
     var body: some View {
-        List(viewModel.topics, id: \.id) { topic in
+        List(viewModel.topics, id: \.self) { topic in
             Text(topic.name)
                 .onTapGesture {
                     coordinator.push(route: .topicDetails(topic))

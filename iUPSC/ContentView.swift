@@ -43,8 +43,18 @@ struct ContentView: View {
                     case .subTopicDetails(let subTopic):
                         EmptyView()
                     case .addQuestion(let topic):
-                        AddQuestionView(
-                            viewModel: container.resolve(AddQuestionViewModel.self, argument: topic)!
+                        QuestionManagementView(
+                            viewModel: container.resolve(QuestionManagementViewModel.self,
+                                                         arguments: topic, QuestionManagementContext.create)!
+                        )
+                    case .updateQuestion(let topic, let question):
+                        QuestionManagementView(
+                            viewModel: container.resolve(QuestionManagementViewModel.self,
+                                                         arguments: topic, QuestionManagementContext.edit(question))!
+                        )
+                    case .questionDetails(let topic, let question):
+                        QuestionDetailsView(
+                            viewModel: container.resolve(QuestionDetailsViewModel.self, arguments: topic, question)!
                         )
                     }
                 }

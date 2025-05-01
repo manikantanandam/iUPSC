@@ -24,6 +24,12 @@ class TopicsServiceManager: ObservableObject {
         topics = _subjects
     }
     
+    @MainActor
+    func fetchTopic(id: String) async throws -> Topic {
+        let topic = try await serviceManager.read(collection: .topics, documentID: id, modelType: Topic.self)
+        return topic
+    }
+    
     // MARK: - Add a New Topic (Create)
     @MainActor
     func addTopic(name: String) async throws {

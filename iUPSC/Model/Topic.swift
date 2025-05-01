@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Topic: DictionaryConvertible, Codable, Identifiable, Hashable {
+struct Topic: DictionaryConvertible, Codable, Identifiable, Hashable {
     let id: String
     let name: String
     let createdOn: TimeInterval
@@ -26,7 +26,7 @@ class Topic: DictionaryConvertible, Codable, Identifiable, Hashable {
         self.questions = []
     }
     
-    required init(from decoder: any Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name)
@@ -40,6 +40,8 @@ class Topic: DictionaryConvertible, Codable, Identifiable, Hashable {
     // MARK: - Hashable Conformance
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+        hasher.combine(name)
+        hasher.combine(questions)
     }
 
     // MARK: - Equatable Conformance

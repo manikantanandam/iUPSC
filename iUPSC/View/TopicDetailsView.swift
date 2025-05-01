@@ -17,9 +17,23 @@ struct TopicDetailsView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text(viewModel.topic.name)
+                .font(.title)
+                .padding(.vertical, 16)
+            ForEach(0..<viewModel.questions.count, id: \.self) { index in
+                let question = viewModel.questions[index]
+                QuestionView(question: question)
+                    .onTapGesture {
+                        coordinator.push(route: .questionDetails(viewModel.topic, question))
+                    }
+            }
             Spacer()
+        }
+        .onAppear {
+            Task {
+                await viewModel.viewAppeared()
+            }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {

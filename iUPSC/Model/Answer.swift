@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Answer: DictionaryConvertible, Codable, Identifiable, Hashable {
+struct Answer: DictionaryConvertible, Codable, Identifiable, Hashable {
     let id: String
     let serialNumber: Int
     let createdOn: TimeInterval

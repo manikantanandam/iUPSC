@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Question: DictionaryConvertible, Codable, Identifiable, Hashable {
+struct Question: DictionaryConvertible, Codable, Identifiable, Hashable {
     let id: String
     var question: String
     var answers: [Answer]

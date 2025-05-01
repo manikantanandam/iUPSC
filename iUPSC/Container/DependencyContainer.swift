@@ -66,13 +66,23 @@ class DependencyContainer {
         }
 
         container.register(TopicDetailsViewModel.self) { resolver, topic in
-            return TopicDetailsViewModel(topic: topic)
+            let topicsServiceManager = resolver.resolve(TopicsServiceManager.self)!
+            return TopicDetailsViewModel(topic: topic,
+                                         topicServiceManager: topicsServiceManager)
         }
         
-        container.register(AddQuestionViewModel.self) { resolver, topic in
-            return AddQuestionViewModel(
+        container.register(QuestionManagementViewModel.self) { resolver, topic, context in
+            return QuestionManagementViewModel(
                 topic: topic,
-                topicsServiceManager: resolver.resolve(TopicsServiceManager.self)!
+                topicsServiceManager: resolver.resolve(TopicsServiceManager.self)!,
+                context: context
+            )
+        }
+        
+        container.register(QuestionDetailsViewModel.self) { resolver, topic, question in
+            return QuestionDetailsViewModel(
+                topic: topic,
+                question: question
             )
         }
     }
@@ -83,5 +93,9 @@ class DependencyContainer {
     
     func resolve<Service, Arg1>(_ serviceType: Service.Type, argument: Arg1) -> Service? {
         return container.resolve(serviceType, argument: argument)
+    }
+    
+    func resolve<Service, Arg1, Arg2>(_ serviceType: Service.Type, arguments arg1: Arg1, _ arg2: Arg2) -> Service? {
+        return container.resolve(serviceType, arguments: arg1, arg2)
     }
 }

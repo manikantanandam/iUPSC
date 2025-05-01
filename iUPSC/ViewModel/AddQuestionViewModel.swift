@@ -6,20 +6,37 @@
 //
 
 import Foundation
+enum QuestionManagementContext {
+    case create
+    case edit(Question)
+}
 
-class AddQuestionViewModel: ObservableObject {
-    let topic: Topic
+class QuestionManagementViewModel: ObservableObject {
+    
+    let context: QuestionManagementContext
+    var topic: Topic
     let topicsServiceManager: TopicsServiceManager
     
-    @Published var question: Question = Question(question: "") {
+    @Published var question: Question {
         didSet {
             objectWillChange.send() // Explicitly notify SwiftUI
         }
     }
     
-    init(topic: Topic, topicsServiceManager: TopicsServiceManager) {
+    init(
+        topic: Topic,
+        topicsServiceManager: TopicsServiceManager,
+        context: QuestionManagementContext
+    ) {
         self.topic = topic
         self.topicsServiceManager = topicsServiceManager
+        self.context = context
+        switch context {
+        case .create:
+            self.question = Question(question: "")
+        case .edit(let question):
+            self.question = question
+        }
     }
     
     func addAnswerButtonTapped() {
@@ -29,8 +46,17 @@ class AddQuestionViewModel: ObservableObject {
         print("Answers count: \(question.answers.count)")
     }
     
+    @MainActor
     func save() async {
-        topic.questions.append(question)
+        switch context {
+        case .create:
+            topic.questions.append(question)
+        case .edit(let question):
+            if let index = topic.questions.firstIndex(of: question) {
+                topic.questions[index] = self.question
+            }
+        }
+        
         do {
             guard
                 question.valid

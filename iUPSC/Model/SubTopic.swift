@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SubTopic: DictionaryConvertible, Codable, Identifiable, Hashable {
+struct SubTopic: DictionaryConvertible, Codable, Identifiable, Hashable {
     let id: String
     let name: String
     let createdOn: TimeInterval

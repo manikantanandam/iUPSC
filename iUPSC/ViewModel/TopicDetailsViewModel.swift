@@ -9,9 +9,25 @@ import Foundation
 
 class TopicDetailsViewModel: ObservableObject {
     
-    let topic: Topic
+    @Published var topic: Topic
+    @Published var questions: [Question] = []
+    let topicServiceManager: TopicsServiceManager
     
-    init(topic: Topic) {
+    init(topic: Topic, topicServiceManager: TopicsServiceManager) {
         self.topic = topic
+        self.topicServiceManager = topicServiceManager
+    }
+    
+    @MainActor
+    func viewAppeared() async {
+        print("Refreshing view")
+        do {
+            let updatedTopic = try await topicServiceManager.fetchTopic(id: topic.id)
+            self.questions = []
+            self.questions = updatedTopic.questions
+            objectWillChange.send()
+        } catch {
+            print("Error in fetching topic \(topic.id)")
+        }
     }
 }

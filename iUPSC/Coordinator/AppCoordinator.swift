@@ -16,6 +16,8 @@ enum AppRoute: Hashable {
     case subTopics
     case subTopicDetails(SubTopic)
     case addQuestion(Topic)
+    case updateQuestion(Topic, Question)
+    case questionDetails(Topic, Question)
 }
 
 class AppCoordinator: ObservableObject {

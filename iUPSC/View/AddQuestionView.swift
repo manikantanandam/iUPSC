@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct AddQuestionView: View {
+struct QuestionManagementView: View {
     
     @EnvironmentObject var coordinator: AppCoordinator
-    @ObservedObject var viewModel: AddQuestionViewModel
+    @ObservedObject var viewModel: QuestionManagementViewModel
     
     @State var question: String = ""
     var body: some View {
