@@ -1,0 +1,45 @@
+# Xcode-specific files
+.DS_Store
+*.xcuserstate
+*.xcuserdata
+*.swp
+*.swo
+*.xccheckout
+*.xcscmblueprint
+DerivedData/
+.idea/
+
+# Build artifacts
+build/
+*.app
+*.ipa
+*.dSYM
+*.xcarchive
+
+# Logs
+*.log
+
+# Swift Package Manager
+/.build/
+/Packages
+xcshareddata/swiftpm/
+/xcuserdata/
+
+# CocoaPods
+Pods/
+*.lock
+*.xcworkspace
+
+# Carthage
+Carthage/Checkouts
+Carthage/Build
+
+# Fastlane
+fastlane/report.xml
+fastlane/screenshots
+fastlane/test_output
+fastlane/*.log
+
+# Other
+*.plist
+*.env
